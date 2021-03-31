@@ -1,0 +1,34 @@
+
+    form = FormTipePerusahaan()
+    formc2 = FormDisclaimer()
+    formc3 = FormDataPerusahaan()
+    formc4 = FormAlamatPerusahaan()
+    formc5 = FormTeleponPerusahaan()
+    formc6 = FormPenanggungjawabPerusahaan()
+    formc8 = FormTenagaAhliPerusahaan()
+    formc91 = FormPengalamanPerusahaan()
+    formc92 = FormPengalamanMitraKerjaPerusahaan()
+    formc93 = FormPekerjaanBerjalanPerusahaan()
+    formd = FormDokumenPerusahaan()
+    formb = FormBank()
+    datac1 = VendorGeneral.objects.filter(user=loggeduser).exists()
+    datac2 = VendorGeneral.objects.filter(
+        user=loggeduser, disclaimer=True).exists()
+    datac21 = admindisclaimer.objects.get(id=1)
+    datac7 = SegmentasiPerusahaan.objects.filter(
+        user=loggeduser).values('kbli__kbli', 'kbli__judul')
+    datac8 = TenagaAhliPerusahaan.objects.filter(user=loggeduser)
+    datac91 = PengalamanPerusahaan.objects.filter(user=loggeduser)
+    datac92 = PengalamanMitraKerjaPerusahaan.objects.filter(user=loggeduser)
+    datac93 = PekerjaanBerjalanPerusahaan.objects.filter(user=loggeduser)
+    datab = BankVendorPerusahaan.objects.filter(user=loggeduser)
+    datad = MasterDokumen.objects.all()
+
+    return render(request, 'data-vendor.html', {'form': form, 'formc2': formc2, 'formc3': formc3,
+                                                'formc4': formc4, 'formc5': formc5, 'formc6': formc6,
+                                                'formc8': formc8, 'formc91': formc91, 'formc92': formc92, 'formc93': formc93,
+                                                'formd': formd, 'formb': formb,
+                                                'datac1': datac1, 'datac2': datac2, 'datac21': datac21,
+                                                'datac7': datac7, 'datac8': datac8, 'datac91': datac91,
+                                                'datac92': datac92, 'datac93': datac93,
+                                                'datab': datab, 'datad': datad})

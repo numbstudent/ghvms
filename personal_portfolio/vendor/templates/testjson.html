@@ -1,0 +1,21 @@
+{% load static %}
+<html>
+
+<body>
+<p id="tes"></p>
+</body>
+
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<script>
+    $.getJSON("/vendor/ajax/fakejson", function (json) {
+        }).done(function (data) {
+            console.log(data.nama_file)
+            $('#tes').text(data.nama_file)
+        }).fail(function (data) {
+            $.each(data.responseJSON, function (key, value) {
+                $('#tes').append(key + ": " + value + "<br>");
+            });
+        })
+</script>
+
+</html>

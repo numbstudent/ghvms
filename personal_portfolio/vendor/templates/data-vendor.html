@@ -1,0 +1,1754 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% csrf_token %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0 text-dark">Registrasi Vendor</h1>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="accordion">
+                    {% if not datac1 %}
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    Tipe Perusahaan
+                                </button>
+                                <i id="tipe_perusahaan_check" style="display: none;"
+                                    class="float-right fa fa-check text-primary fa-2x"></i>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ form.tipe_perusahaan|as_crispy_field }}
+                                    <div class="float-right">
+                                        <button id="tipe_perusahaan" class="btn btn-primary">Isikan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if dalamverifikasi %}
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-body">
+                            Data anda sedang dalam proses verifikasi Bank Jatim.
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if not dalamverifikasi %}
+                    {% if not datac2 and datac1 %}
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                    Disclaimer
+                                </button>
+                                <i id="disclaimer_check" style="display: none;"
+                                    class="float-right fa fa-check text-primary fa-2x"></i>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    {{ datac21.disclaimertext|safe }}
+                                    <div class="float-right">
+                                        {{ formc2.disclaimer }}
+                                        <button id="disclaimer" class="btn btn-primary">Setuju</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if datac1 and datac2 %}
+                    {% if tipe_perusahaan != 'PO' %}
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="heading_perusahaan">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    Data Perusahaan
+                                </button>
+                                <i id="asdasdasdasd" style="display: none;"
+                                    class="float-right fa fa-check text-primary fa-2x"></i>
+                            </h5>
+                        </div>
+
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="card mb-4 border-left-primary">
+                                    <div class="card-header" id="heading_data_perusahaan">
+                                        <h5 class="mb-0">
+                                            Perusahaan
+                                            <i id="data_perusahaan_check" style="display: none;"
+                                                class="float-right fa fa-check text-white fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <table class="table table-bordered" id="data_perusahaan_table_row">
+                                                {% if datac3.exists %}
+                                                {% for record in datac3 %}
+                                                <tr>
+                                                    <td>Nomor PKP</td>
+                                                    <td>{{record.no_pkp}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kualifikasi</td>
+                                                    <td>{{record.get_kualifikasi_display}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Perusahaan</td>
+                                                    <td>{{record.bentuk_perusahaan}}. {{record.nama_perusahaan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>NPWP</td>
+                                                    <td>{{record.npwp_perusahaan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>No. Akte Perusahaan</td>
+                                                    <td>{{record.no_akte_perusahaan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tanggal Berdiri</td>
+                                                    <td>{{record.tanggal_berdiri_perusahaan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tanggal Perubahan</td>
+                                                    <td>{{record.tanggal_perubahan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Singkatan</td>
+                                                    <td>{{record.nama_singkatan}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nama Singkatan</td>
+                                                    <td>{{record.website}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                {{ formc3.tipe_pkp|as_crispy_field }}
+                                            </div>
+                                            <div class="col-lg-6">
+                                                {{ formc3.no_pkp|as_crispy_field }}
+                                                <input type="hidden" id="pkp_ok" value="false">
+                                                <div class="float-right">
+                                                    <button id="cek_pkp" class="btn btn-primary" disabled>Cek PKP</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                {{ formc3.kualifikasi|as_crispy_field }}
+                                            </div>
+                                            <div class="col-lg-6">
+                                                {{ formc3.grade|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                {{ formc3.nama_perusahaan|as_crispy_field }}
+                                            </div>
+                                            <div class="col-lg-6">
+                                                {{ formc3.bentuk_perusahaan|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                {{ formc3.npwp_perusahaan|as_crispy_field }}
+                                                <input type="hidden" id="npwp_ok" value="false">
+                                                <div class="float-right">
+                                                    <button id="cek_npwp" class="btn btn-primary">Cek NPWP</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{ formc3.no_akte_perusahaan|as_crispy_field }}
+                                        {{ formc3.tanggal_berdiri_perusahaan|as_crispy_field }}
+                                        {{ formc3.tanggal_perubahan|as_crispy_field }}
+                                        {{ formc3.nama_singkatan|as_crispy_field }}
+                                        {{ formc3.website|as_crispy_field }}
+                                        <div class="float-right">
+                                            <button id="data_perusahaan" class="btn btn-primary">Setuju</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 border-left-primary">
+                                    <div class="card-header" id="heading_alamat_perusahaan">
+                                        <h5 class="mb-0">
+                                            Alamat
+                                            <i id="alamat_perusahaan_check" style="display: none;"
+                                                class="float-right fa fa-check text-primary fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <table class="table table-bordered">
+                                                {% if datac4.exists %}
+                                                {% for record in datac4 %}
+                                                <tr>
+                                                    <td>Alamat Kantor</td>
+                                                    <td>
+                                                        {{record.alamat_kantor}}, 
+                                                        {{record.kota_kantor}}, 
+                                                        {{record.kode_pos_kantor}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alamat NPWP</td>
+                                                    <td>
+                                                        {{record.alamat_npwp}}, 
+                                                        {{record.kota_npwp}}, 
+                                                        {{record.kode_pos_npwp}}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Alamat Gudang</td>
+                                                    <td>
+                                                        {{record.alamat_gudang}}, 
+                                                        {{record.kota_gudang}}, 
+                                                        {{record.kode_pos_gudang}}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </table>
+                                        </div>
+                                        {{ formc4.alamat_kantor|as_crispy_field }}
+                                        <div id="div_id_propinsi_kantor" class="form-group">
+                                            <label for="id_propinsi_kantor" class=" requiredField">
+                                                Propinsi<span class="asteriskField">*</span>
+                                            </label>
+                                            <div class="">
+                                                <select name="propinsi_kantor" class="select form-control" required=""
+                                                    id="id_propinsi_kantor">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{ formc4.kota_kantor|as_crispy_field }}
+                                        {{ formc4.kode_pos_kantor|as_crispy_field }}
+                                        <hr>
+                                        {{ formc4.alamat_npwp|as_crispy_field }}
+                                        <div id="div_id_propinsi_npwp" class="form-group">
+                                            <label for="id_propinsi_npwp" class=" requiredField">
+                                                Propinsi<span class="asteriskField">*</span>
+                                            </label>
+                                            <div class="">
+                                                <select name="propinsi_npwp" class="select form-control" required=""
+                                                    id="id_propinsi_npwp">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{ formc4.kota_npwp|as_crispy_field }}
+                                        {{ formc4.kode_pos_npwp|as_crispy_field }}
+                                        <hr>
+                                        {{ formc4.alamat_gudang|as_crispy_field }}
+                                        <div id="div_id_propinsi_gudang" class="form-group">
+                                            <label for="id_propinsi_gudang" class=" requiredField">
+                                                Propinsi<span class="asteriskField">*</span>
+                                            </label>
+                                            <div class="">
+                                                <select name="propinsi_gudang" class="select form-control" required=""
+                                                    id="id_propinsi_gudang">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{ formc4.kota_gudang|as_crispy_field }}
+                                        {{ formc4.kode_pos_gudang|as_crispy_field }}
+                                        <hr>
+                                        <div class="float-right">
+                                            <button id="alamat_perusahaan" class="btn btn-primary">Isikan</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 border-left-primary">
+                                    <div class="card-header" id="heading_telepon_perusahaan">
+                                        <h5 class="mb-0">
+                                            Telepon
+                                            <i id="telepon_perusahaan_check" style="display: none;"
+                                                class="float-right fa fa-check text-primary fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        {{ formc5.nomor_telepon|as_crispy_field }}
+                                        {{ formc5.nomor_fax|as_crispy_field }}
+                                        <div class="float-right">
+                                            <button id="telepon_perusahaan" class="btn btn-primary">Isikan</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 border-left-primary">
+                                    <div class="card-header" id="heading_penanggungjawab_perusahaan">
+                                        <h5 class="mb-0">
+                                            Penanggungjawab
+                                            <i id="penanggungjawab_perusahaan_check" style="display: none;"
+                                                class="float-right fa fa-check text-primary fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            {{ formc6.nama_pemilik|as_crispy_field }}
+                                            {{ formc6.email_pemilik|as_crispy_field }}
+                                            {{ formc6.hp_pemilik|as_crispy_field }}
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            {{ formc6.nama_pimpinan|as_crispy_field }}
+                                            {{ formc6.email_pimpinan|as_crispy_field }}
+                                            {{ formc6.hp_pimpinan|as_crispy_field }}
+                                            {{ formc6.ktp_pimpinan|as_crispy_field }}
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            {{ formc6.nama_marketing|as_crispy_field }}
+                                            {{ formc6.email_marketing|as_crispy_field }}
+                                            {{ formc6.hp_marketing|as_crispy_field }}
+                                        </div>
+                                        <div class="float-right">
+                                            <button id="penanggungjawab_perusahaan"
+                                                class="btn btn-primary">Isikan</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if tipe_perusahaan == 'PO' %}
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="heading_perorangan">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true"
+                                    aria-controls="collapseOne">
+                                    Data Perorangan
+                                </button>
+                                <i id="asdasdasdasd" style="display: none;" class="float-right fa fa-check text-primary fa-2x"></i>
+                            </h5>
+                        </div>
+                    
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row">
+                                    <table class="table table-bordered" id="data_perorangan_table_row">
+                                        {% if datac3.exists %}
+                                        {% for record in datac3 %}
+                                        <tr>
+                                            <td>Nama Perorangan</td>
+                                            <td>{{record.nama_perorangan}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nama Singkatan</td>
+                                            <td>{{record.nama_singkatan}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Perorangan</td>
+                                            <td>{{record.alamat_perorangan}}, {{record.kota_perorangan}}, {{record.kode_pos_perorangan}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor KTP/SIM/Passport</td>
+                                            <td>{{record.nomor_ktp}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>NPWP Perorangan</td>
+                                            <td>{{record.npwp_perorangan}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Telepon // Nomor Fax</td>
+                                            <td>{{record.nomor_telepon}} // {% firstof record.nomor_fax '-' %}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nomor Handphone</td>
+                                            <td>{{record.nomor_hp}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td>{{record.email}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ formc3.nama_perorangan|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ formc3.nama_singkatan|as_crispy_field }}
+                                    </div>
+                                </div>
+                                {{ formc3.alamat_perorangan|as_crispy_field }}
+                                <div id="div_id_propinsi_perorangan" class="form-group">
+                                    <label for="id_propinsi_perorangan" class=" requiredField">
+                                        Propinsi<span class="asteriskField">*</span>
+                                    </label>
+                                    <div class="">
+                                        <select name="propinsi_perorangan" class="select form-control" required="" id="id_propinsi_perorangan">
+                                        </select>
+                                    </div>
+                                </div>
+                                {{ formc3.kota_perorangan|as_crispy_field }}
+                                {{ formc3.kode_pos_perorangan|as_crispy_field }}
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ formc3.nomor_ktp|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        {{ formc3.tanggal_berakhir|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        {{ formc3.npwp_perorangan|as_crispy_field }}
+                                        <input type="hidden" id="npwp_ok" value="false">
+                                        <div class="float-right">
+                                            <button id="cek_npwp" class="btn btn-primary">Cek NPWP</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        {{ formc3.nomor_telepon|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-4">
+                                        {{ formc3.nomor_fax|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-4">
+                                        {{ formc3.nomor_hp|as_crispy_field }}
+                                    </div>
+                                </div>
+                                {{ formc3.email|as_crispy_field }}
+                                <div class="float-right">
+                                    <button id="data_perorangan" class="btn btn-primary">Isikan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="heading_dokumen_vendor">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse"
+                                    data-target="#collapseDokumen" aria-expanded="false"
+                                    aria-controls="collapseDokumen">
+                                    Dokumen Administrasi
+                                </button>
+                                <i id="dokumen_vendor_check" style="display: none;"
+                                    class="float-right fa fa-check text-white fa-2x"></i>
+                            </h5>
+                        </div>
+                        <div id="collapseDokumen" class="collapse" aria-labelledby="heading_dokumen_vendor"
+                            data-parent="#accordion">
+                            <div class="card-body">
+
+                                <div class="form-group">
+                                    {% for record in datad %}
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <label for="id_dok_{{record.nama}}" class=" requiredField">
+                                                        {{record.label}}{% if record.is_required %}<span class="asteriskField">*</span>{% endif %}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="div_id_akte" class="row form-group">
+                                                <div class="col-lg-3">
+                                                    <input type="file" name="nama_file"
+                                                    class="clearablefileinput form-control-file" required="{% if record.is_required %}required{% endif %}"
+                                                    id="id_dok_{{record.nama}}">
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    {% if record.ada_berakhir %}
+                                                    <div class="row">
+                                                        <div class="col-lg-6 text-right">
+                                                            Tanggal Berakhir:
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <input type="date" name="tanggal_berakhir" class="textinput textInput form-control" required id="id_tanggal_berakhir_{{record.nama}}">
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-lg-2" id="id_link_{{record.nama}}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <button id="{{record.nama}}"
+                                                    class="dokumen_vendor btn btn-primary">Unggah</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="overlay" id="{{record.nama}}_load" style="display: none;">
+                                            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="heading_bank_perusahaan">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse"
+                                    data-target="#collapseBank" aria-expanded="false" aria-controls="collapseBank">
+                                    Bank
+                                </button>
+                                <i id="bank_perusahaan_check" style="display: none;"
+                                    class="float-right fa fa-check text-white fa-2x"></i>
+                            </h5>
+                        </div>
+                        <div id="collapseBank" class="collapse" aria-labelledby="heading_bank_perusahaan" data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table datatable" id="bank_perusahaan_table_row">
+                                    {% if datab.exists %}
+                                    <tr>
+                                        <th>Nama Bank</th>
+                                        <th>Cabang Bank</th>
+                                        <th>Nomor Rekening Bank</th>
+                                        <th>Hapus</th>
+                                    </tr>
+                                    {% for record in datab %}
+                                    <tr>
+                                        <td>{{record.nama}}</td>
+                                        <td>{{record.cabang}}</td>
+                                        <td>{{record.nomor_rekening}}</td>
+                                        <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </table>
+                                <div class="form-group">
+                                    <div id="div_id_bank_perusahaan_table" class="form-group">
+                                        <div class="small">
+                                            {{ formb.nama | as_crispy_field }}
+                                            {{ formb.cabang | as_crispy_field }}
+                                            {{ formb.alamat | as_crispy_field }}
+                                            {{ formb.kota | as_crispy_field }}
+                                            {{ formb.negara | as_crispy_field }}
+                                            {{ formb.nomor_rekening | as_crispy_field }}
+                                            {{ formb.nama_nasabah | as_crispy_field }}
+                                            {{ formb.mata_uang | as_crispy_field }}
+                                            <div class="float-right">
+                                                <button id="bank_perusahaan" class="btn btn-primary">Isikan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="heading_segmentasi_perusahaan">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse"
+                                    data-target="#collapseSegmentasi" aria-expanded="false"
+                                    aria-controls="collapseSegmentasi">
+                                    Segmentasi
+                                </button>
+                                <i id="segmentasi_perusahaan_check" style="display: none;"
+                                    class="float-right fa fa-check text-white fa-2x"></i>
+                            </h5>
+                        </div>
+                        <div id="collapseSegmentasi" class="collapse" aria-labelledby="heading_segmentasi_perusahaan"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table datatable" id="segmentasi_table_row">
+                                {% if datac7.exists %}
+                                    <tr>
+                                        <th>KBLI</th>
+                                        <th>Judul</th>
+                                        <th>Hapus</th>
+                                    </tr>
+                                    {% for record in datac7 %}
+                                    <tr>
+                                        <td>{{record.kbli__kbli}}</td>
+                                        <td>{{record.kbli__judul}}</td>
+                                        <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </table>
+                                <div class="form-group">
+                                    <div id="div_id_segmentasi_perusahaan_table" class="form-group">
+                                        <div class="small">
+                                            <select name="id_kbli" id="id_kbli" class="select form-control select2bs4"
+                                                required id="id_tipe_pkp">
+                                            </select>
+                                            <div class="float-right">
+                                                <button id="segmentasi_perusahaan"
+                                                    class="btn btn-primary">Isikan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4 border-left-primary">
+                        <div class="overlay" id="tenaga_ahli_perusahaan_load" style="display: none;">
+                            <i class="fas fa-2x fa-sync-alt fa-spin"></i>
+                        </div>
+                        <div class="card-header" id="heading_tenaga_ahli_perusahaan">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse"
+                                    data-target="#collapseTenagaAhli" aria-expanded="false"
+                                    aria-controls="collapseTenagaAhli">
+                                    Tenaga Ahli
+                                </button>
+                                <i id="tenaga_ahli_perusahaan_check" style="display: none;"
+                                    class="float-right fa fa-check text-white fa-2x"></i>
+                            </h5>
+                        </div>
+                        <div id="collapseTenagaAhli" class="collapse" aria-labelledby="heading_tenaga_ahli_perusahaan"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table datatable" id="tenaga_ahli_table_row">
+                                {% if datac8.exists %}
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Tanggal Lahir</th>
+                                        <th>Pendidikan</th>
+                                        <th>Pengalaman (tahun)</th>
+                                        <th>Profesi / Keahlian</th>
+                                        <th>Dokumen Pengalaman / Sertifikat / CV</th>
+                                    </tr>
+                                    {% for record in datac8 %}
+                                    <tr>
+                                        <td>{{record.nama_tenaga_ahli}}</td>
+                                        <td>{{record.tanggal_lahir}}</td>
+                                        <td>{{record.pendidikan}}</td>
+                                        <td>{{record.pengalaman}}</td>
+                                        <td>{{record.profesi}}</td>
+                                        <td><a href="{{MEDIA_URL}}{{record.dokumen}}" target="_blank">Dokumen</a></td>
+                                        <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </table>
+                                <div class="form-group">
+                                    <div id="div_id_tenaga_ahli_table" class="form-group">
+                                        <div class="small">
+                                            {{formc8.nama_tenaga_ahli | as_crispy_field}}
+                                            {{formc8.tanggal_lahir | as_crispy_field}}
+                                            {{formc8.pendidikan | as_crispy_field}}
+                                            {{formc8.pengalaman | as_crispy_field}} <span>tahun</span>
+                                            {{formc8.profesi | as_crispy_field}}
+                                            {{formc8.dokumen | as_crispy_field}}
+                                            <div class="float-right">
+                                                <button id="tenaga_ahli_perusahaan"
+                                                    class="btn btn-primary">Isikan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4 border-left-primary">
+                        <div class="card-header" id="heading_pengalaman">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapsePengalaman" aria-expanded="true"
+                                    aria-controls="collapsePengalaman">
+                                    Pengalaman
+                                </button>
+                                <i id="pengalaman" style="display: none;" class="float-right fa fa-check text-primary fa-2x"></i>
+                            </h5>
+                        </div>
+                    
+                        <div id="collapsePengalaman" class="collapse" aria-labelledby="heading_pengalaman" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="tidak_ada_pengalaman" value="false">
+                                        <label class="form-check-label" for="tidak_ada_pengalaman">Tidak Ada Pengalaman</label>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 border-left-primary" id="div_pengalaman_perusahaan">
+                                    <div class="card-header" id="heading_pengalaman_perusahaan">
+                                        <h5 class="mb-0">
+                                            Daftar Pengalaman Pekerjaan Aktif Selama 5 Tahun Terakhir
+                                            <i id="pengalaman_perusahaan_check" style="display: none;"
+                                                class="float-right fa fa-check text-white fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table datatable" id="pengalaman_perusahaan_table_row">
+                                        {% if datac91.exists%}
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Lokasi</th>
+                                                <th>Bidang Usaha</th>
+                                                <th>Mulai Kerjasama</th>
+                                                <th>Nilai Kontrak</th>
+                                                <th>Mata Uang</th>
+                                                <th>Dokumen</th>
+                                            </tr>
+                                            {% for record in datac91 %}
+                                            <tr>
+                                                <td>{{record.p_nama}}</td>
+                                                <td>{{record.p_lokasi}}</td>
+                                                <td>{{record.p_bidang_usaha}}</td>
+                                                <td>{{record.p_mulai_kerjasama}}</td>
+                                                <td>{{record.p_nilai_kontrak}}</td>
+                                                <td>{{record.p_mata_uang}}</td>
+                                                <td><a href="{{MEDIA_URL}}{{record.p_dokumen}}" target="_blank">Dokumen</a></td>
+                                                <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </table>
+                                        <div class="form-group">
+                                            <div id="div_id_pengalaman_perusahaan_table" class="form-group">
+                                                <div class="small">
+                                                    {{formc91.p_nama | as_crispy_field}}
+                                                    {{formc91.p_lokasi | as_crispy_field}}
+                                                    {{formc91.p_bidang_usaha | as_crispy_field}}
+                                                    {{formc91.p_mulai_kerjasama | as_crispy_field}}
+                                                    {{formc91.p_nilai_kontrak | as_crispy_field}}
+                                                    {{formc91.p_mata_uang | as_crispy_field}}
+                                                    {{formc91.p_dokumen | as_crispy_field}}
+                                                    <div class="float-right">
+                                                        <button id="pengalaman_perusahaan" class="btn btn-primary pengalaman">Isikan</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 border-left-primary">
+                                    <div class="card-header" id="heading_pengalaman_mitra_perusahaan">
+                                        <h5 class="mb-0">
+                                            Daftar Mitra Dagang / Mitra Usaha (opsional)
+                                            <i id="pengalaman_mitra_perusahaan_check" style="display: none;"
+                                                class="float-right fa fa-check text-primary fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <table class="table datatable" id="pengalaman_mitra_perusahaan_table_row">
+                                            {% if datac92.exists %}
+                                                <tr>
+                                                    <th>Nama</th>
+                                                    <th>Lokasi</th>
+                                                    <th>Bidang Usaha</th>
+                                                    <th>Mulai Kerjasama</th>
+                                                    <th>Nilai Kontrak</th>
+                                                    <th>Mata Uang</th>
+                                                    <th>Dokumen</th>
+                                                </tr>
+                                                {% for record in datac92 %}
+                                                <tr>
+                                                    <td>{{record.m_nama}}</td>
+                                                    <td>{{record.m_lokasi}}</td>
+                                                    <td>{{record.m_bidang_usaha}}</td>
+                                                    <td>{{record.m_mulai_kerjasama}}</td>
+                                                    <td>{{record.m_nilai_kontrak}}</td>
+                                                    <td>{{record.m_mata_uang}}</td>
+                                                    <td><a href="{{MEDIA_URL}}{{record.m_dokumen}}" target="_blank">Dokumen</a></td>
+                                                    <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% endif %}
+                                            </table>
+                                            <div id="div_id_pengalaman_mitra_perusahaan_table" class="form-group">
+                                                <div class="small">
+                                                    {{formc92.m_nama | as_crispy_field}}
+                                                    {{formc92.m_lokasi | as_crispy_field}}
+                                                    {{formc92.m_bidang_usaha | as_crispy_field}}
+                                                    {{formc92.m_mulai_kerjasama | as_crispy_field}}
+                                                    {{formc92.m_nilai_kontrak | as_crispy_field}}
+                                                    {{formc92.m_mata_uang | as_crispy_field}}
+                                                    {{formc92.m_dokumen | as_crispy_field}}
+                                                    <div class="float-right">
+                                                        <button id="pengalaman_mitra_perusahaan" class="btn btn-primary pengalaman">Isikan</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4 border-left-primary">
+                                    <div class="card-header" id="heading_pekerjaan_berjalan">
+                                        <h5 class="mb-0">
+                                            Daftar Pekerjaan yang Sedang Berjalan (opsional)
+                                            <i id="pekerjaan_berjalan_check" style="display: none;"
+                                                class="float-right fa fa-check text-primary fa-2x"></i>
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table datatable" id="pekerjaan_berjalan_table_row">
+                                            {% if datac93.exists%}
+                                            <tr>
+                                                <th>Nama</th>
+                                                <th>Lokasi</th>
+                                                <th>Bidang Usaha</th>
+                                                <th>Mulai Kerjasama</th>
+                                                <th>Nilai Kontrak</th>
+                                                <th>Mata Uang</th>
+                                                <th>Dokumen</th>
+                                            </tr>
+                                            {% for record in datac93 %}
+                                            <tr>
+                                                <td>{{record.b_nama}}</td>
+                                                <td>{{record.b_lokasi}}</td>
+                                                <td>{{record.b_bidang_usaha}}</td>
+                                                <td>{{record.b_mulai_kerjasama}}</td>
+                                                <td>{{record.b_nilai_kontrak}}</td>
+                                                <td>{{record.b_mata_uang}}</td>
+                                                <td><a href="{{MEDIA_URL}}{{record.b_dokumen}}" target="_blank">Dokumen</a></td>
+                                                <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </table>
+                                        <div class="form-group">
+                                            <div id="div_id_pekerjaan_berjalan_table" class="form-group">
+                                                <div class="small">
+                                                    {{formc93.b_nama | as_crispy_field}}
+                                                    {{formc93.b_lokasi | as_crispy_field}}
+                                                    {{formc93.b_bidang_usaha | as_crispy_field}}
+                                                    {{formc93.b_mulai_kerjasama | as_crispy_field}}
+                                                    {{formc93.b_nilai_kontrak | as_crispy_field}}
+                                                    {{formc93.b_mata_uang | as_crispy_field}}
+                                                    {{formc93.b_dokumen | as_crispy_field}}
+                                                    <div class="float-right">
+                                                        <button id="pekerjaan_berjalan" class="btn btn-primary pengalaman">Isikan</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4 border-left-primary" id="div_verify_to_administrator" style="display: none;">
+                        <div class="card-header">
+                            Verifikasikan ke Bank Jatim
+                        </div>
+                        <div class="card-body">
+                            <button class="btn btn-block btn-success" id="verify_to_administrator">Verifikasikan</button>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+{% endblock %}
+{% block javascript %}
+<script>
+    function setsuccess(id) {
+        $('#' + id).addClass('bg-success')
+        $('#' + id + ' h5 button').addClass('text-white')
+    }
+    $("textarea").attr({
+        "rows": "2",
+    });
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
+    var complete = {
+        'data_perusahaan_perorangan':0,
+        'dokumen_vendor':0,
+        'dokumen_vendor_required': {{ datad7required.count }},
+        'dokumen_vendor_completed': {{ datad7.count }},
+        'bank_perusahaan':0,
+        'segmentasi_perusahaan':0,
+        'tenaga_ahli_perusahaan':0,
+        'pengalaman':0,
+    }
+    
+    function show_verify_button() {
+            var showsubmit = true
+            for (const key in complete) {
+                if (complete[key] == 0) {
+                    showsubmit = false
+                }
+            }
+            if (showsubmit == true) {
+                $('#div_verify_to_administrator').show()
+            }
+        }
+
+    {% if datac3.exists and datac4.exists and not datac5 and datac6.exists %}
+    setsuccess('heading_perusahaan') 
+    complete.data_perusahaan_perorangan = 1
+    {% endif %}
+    
+    {% if datac3.exists and tipe_perusahaan == 'PO' %}
+    setsuccess('heading_perorangan')
+    complete.data_perusahaan_perorangan = 1
+    {% endif %}
+    {% if datac3.exists %} $('#heading_data_perusahaan').addClass('bg-success'){% endif %}
+    {% if datac4.exists %} $('#heading_alamat_perusahaan').addClass('bg-success'){% endif %}
+    {% if not datac5 %} $('#heading_telepon_perusahaan').addClass('bg-success'){% endif %}
+    {% if datac6.exists %} $('#heading_penanggungjawab_perusahaan').addClass('bg-success'){% endif %}
+    {% if datad7.exists and datad7.count >= datad7required.count %}
+    setsuccess('heading_dokumen_vendor')
+    complete.dokumen_vendor = 1
+    {% endif %}
+    {% if datab.exists %}
+    setsuccess('heading_bank_perusahaan')
+    complete.bank_perusahaan = 1
+    {% endif %}
+    {% if datac7.exists %}
+    setsuccess('heading_segmentasi_perusahaan')
+    complete.segmentasi_perusahaan = 1
+    {% endif %}
+    {% if datac8.exists %}
+    setsuccess('heading_tenaga_ahli_perusahaan')
+    complete.tenaga_ahli_perusahaan = 1
+    {% endif %}
+    {% if datac91.exists %}
+    setsuccess('heading_pengalaman')
+    complete.pengalaman = 1
+    {% endif %}
+    {% if datac91.exists %} $('#heading_pengalaman_perusahaan').addClass('bg-success'){% endif %}
+    {% if datac92.exists %} $('#heading_pengalaman_mitra_perusahaan').addClass('bg-success'){% endif %}
+    {% if datac93.exists %} $('#heading_pekerjaan_berjalan').addClass('bg-success'){% endif %}
+    
+    show_verify_button()
+
+    $.getJSON("/vendor/ajax/getdocuments", function (json) {
+        var url = {{ MEDIA_URL }}
+        $.each(json, function (i, obj) {
+            $('#id_link_' + obj.jenis_file).empty().append($('<a>').text('File - ' + obj.updated_at.substring(0, 10)).attr({ 'href': url + obj.nama_file, target: "_blank" }))
+        })
+    }).fail(function (data) {
+        console.log(data)
+    })
+
+    
+    $.getJSON("/vendor/ajax/getkbli", function (json) {
+        $('#id_kbli').empty()
+        $.each(json, function (i, obj) {
+            $('#id_kbli').append($('<option>').text(obj.kbli + ' - ' + obj.judul).attr('value', obj.id))
+        })
+    }).fail(function (data) {
+        console.log(data)
+    })
+
+    $.getJSON("/vendor/ajax/getpropinsi", function (json) {
+        $('#id_propinsi_kantor').empty()
+        $('#id_propinsi_npwp').empty()
+        $('#id_propinsi_gudang').empty()
+        $('#id_propinsi_perorangan').empty()
+        $.each(json, function (i, obj) {
+            $('#id_propinsi_kantor').append($('<option>').text(obj.provinsi).attr('value', obj.id))
+            $('#id_propinsi_npwp').append($('<option>').text(obj.provinsi).attr('value', obj.id))
+            $('#id_propinsi_gudang').append($('<option>').text(obj.provinsi).attr('value', obj.id))
+            $('#id_propinsi_perorangan').append($('<option>').text(obj.provinsi).attr('value', obj.id))
+        })
+    }).fail(function (data) {
+        console.log(data)
+    })
+
+    $('input#tidak_ada_pengalaman').change(function () {
+        if ($('input#tidak_ada_pengalaman').val() == "false") {   
+            $('input#tidak_ada_pengalaman').attr('value', "true")
+            $('#div_pengalaman_perusahaan').hide()
+        }else{
+            $('input#tidak_ada_pengalaman').attr('value', "false") 
+            $('#div_pengalaman_perusahaan').show()
+        }
+    });
+
+    $('select#id_propinsi_kantor').change(function () {
+        var value = $(this).val();
+        $.getJSON("/vendor/ajax/getkotabypropinsi/" + value, function (json) {
+            $('#id_kota_kantor').empty()
+            $.each(json, function (i, obj) {
+                $('#id_kota_kantor').append($('<option>').text(obj.kota).attr('value', obj.id))
+            })
+        }).fail(function (data) {
+            console.log(data)
+        })
+    });
+
+    $('select#id_tipe_pkp').change(function () {
+            var value = $(this).val();
+            if (value == 'C1') {
+                $('#id_no_pkp').attr('required', true)
+                $('#id_no_pkp').removeAttr('disabled')
+                $('#cek_pkp').removeAttr('disabled')
+            }else
+            if (value == 'C0') {
+                $('#id_no_pkp').removeAttr('required')
+                $('#id_no_pkp').attr('disabled', true)
+                $('#cek_pkp').attr('disabled', true)
+
+            }
+        });
+
+    $('select#id_propinsi_npwp').change(function () {
+        var value = $(this).val();
+        $.getJSON("/vendor/ajax/getkotabypropinsi/" + value, function (json) {
+            $('#id_kota_npwp').empty()
+            $.each(json, function (i, obj) {
+                $('#id_kota_npwp').append($('<option>').text(obj.kota).attr('value', obj.id))
+            })
+        }).fail(function (data) {
+            console.log(data)
+        })
+    });
+
+    $('select#id_propinsi_gudang').change(function () {
+        var value = $(this).val();
+        $.getJSON("/vendor/ajax/getkotabypropinsi/" + value, function (json) {
+            $('#id_kota_gudang').empty()
+            $.each(json, function (i, obj) {
+                $('#id_kota_gudang').append($('<option>').text(obj.kota).attr('value', obj.id))
+            })
+        }).fail(function (data) {
+            console.log(data)
+        })
+    });
+    
+    $('select#id_propinsi_perorangan').change(function () {
+        var value = $(this).val();
+        $.getJSON("/vendor/ajax/getkotabypropinsi/" + value, function (json) {
+            $('#id_kota_perorangan').empty()
+            $.each(json, function (i, obj) {
+                $('#id_kota_perorangan').append($('<option>').text(obj.kota).attr('value', obj.id))
+            })
+        }).fail(function (data) {
+            console.log(data)
+        })
+    });
+
+    
+
+    $('button').click(function () {
+        show_verify_button()
+    })
+    $('button#verify_to_administrator').click(function () {
+        const data = {
+            submit: true,
+        }
+        $.ajax({
+            url: 'ajax/verifytoadministrator',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                if (data.result == 'OK') {
+                    toastr.success("Data lengkap!")
+                }else
+                {
+                    toastr.error("Data belum lengkap!")
+                    toastr.error(data.reason)
+                }
+                setTimeout(function () {
+                    window.location.reload();
+                }, 3000);
+            },
+            error: function (data) {
+                toastr.error("Data gagal.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+    $('button#cek_pkp').click(function () {
+        const data = {
+            no_pkp: $('#id_no_pkp').val(),
+        }
+        if (data.no_pkp == '') {
+            toastr.error("Isi Nomor PKP.")
+        } else {
+            $.ajax({
+                url: 'ajax/cekpkp',
+                headers: { 'X-CSRFToken': csrftoken },
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    if (data.result == 'exist') {
+                        toastr.error("Nomor PKP pernah digunakan.")
+                        $('#pkp_ok').attr('value', "false")
+                    } else if (data.result == 'not exist') {
+                        toastr.success("Nomor PKP belum pernah digunakan.")
+                        $('#pkp_ok').attr('value', "true")
+                    } 
+                },
+                error: function (data) {
+                    toastr.error("Data gagal.\n")
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+            });
+        }
+    });
+
+    $('button#cek_npwp').click(function () {
+        var no_npwp = ''
+        if (!$('#id_npwp_perusahaan').val()) {
+            no_npwp = $('#id_npwp_perorangan').val()
+        }else if (!$('#id_npwp_perorangan').val()) {
+             no_npwp = $('#id_npwp_perusahaan').val()
+        }
+        const data = {
+            'no_npwp': no_npwp,
+        }
+        if (data.no_npwp == '') {
+            toastr.error("Isi Nomor NPWP.")
+        } else {
+            $.ajax({
+                url: 'ajax/ceknpwp',
+                headers: { 'X-CSRFToken': csrftoken },
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    if (data.result == 'exist') {
+                        toastr.error("Nomor NPWP pernah digunakan.")
+                        $('#npwp_ok').attr('value', "false")
+                    } else if (data.result == 'not exist') {
+                        toastr.success("Nomor NPWP belum pernah digunakan.")
+                        $('#npwp_ok').attr('value', "true")
+                    } 
+                },
+                error: function (data) {
+                    toastr.error("Data gagal.\n")
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+            });
+        }
+    });
+
+    $('button#tipe_perusahaan').click(function () {
+        $.ajax({
+            url: 'ajax/c1',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: $('input[name="tipe_perusahaan"]:checked').serialize(),
+            success: function (data) {
+                toastr.success("Data berhasil ditambahkan.")
+                $('#tipe_perusahaan_check').show()
+                $('#heading_tipe_perusahaan').addClass('bg-success');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+    $('button#disclaimer').click(function () {
+        console.log($('#id_disclaimer').val())
+        $.ajax({
+            url: 'ajax/c2',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            // data: $('input[name="disclaimer"]').serialize(),
+            data: {
+                disclaimer: $('#id_disclaimer').val()
+            },
+            success: function (data) {
+                toastr.success("Data berhasil ditambahkan.")
+                $('#disclaimer_check').show()
+                $('#heading_disclaimer').addClass('bg-success');
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+    $('button#data_perusahaan').click(function () {
+        const data = {
+            tipe_pkp: $('#id_tipe_pkp').find(":selected").val(),
+            no_pkp: $('#id_no_pkp').val(),
+            kualifikasi: $('#id_kualifikasi').find(":selected").val(),
+            grade: $('#id_grade').find(":selected").val(),
+            nama_perusahaan: $('#id_nama_perusahaan').val(),
+            bentuk_perusahaan: $('#id_bentuk_perusahaan').find(":selected").val(),
+            npwp_perusahaan: $('#id_npwp_perusahaan').val(),
+            no_akte_perusahaan: $('#id_no_akte_perusahaan').val(),
+            tanggal_berdiri_perusahaan: $('#id_tanggal_berdiri_perusahaan').val(),
+            tanggal_perubahan: $('#id_tanggal_perubahan').val(),
+            nama_singkatan: $('#id_nama_singkatan').val(),
+            website: $('#id_website').val(),
+        }
+        if (($('#pkp_ok').val() == "false" && $('#tipe_pkp').val() == "C1") || $('#npwp_ok').val() == "false") {
+            toastr.error("Mohon Cek PKP atau Cek NPWP.\n")
+        } else {   
+            $.ajax({
+                url: 'ajax/c3',
+                headers: { 'X-CSRFToken': csrftoken },
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    setsuccess('heading_data_perusahaan')
+                    complete.data_perusahaan_perorangan = 1
+                    toastr.success("Data berhasil ditambahkan.")
+                    $('#data_perusahaan_check').show()
+                    $('#data_perusahaan_table_row').empty()
+                    data = data[0]
+                    console.log(data)
+                    var dataperusahaan = '<tr>\
+                        <td>Nomor PKP</td>\
+                        <td>'+data.no_pkp+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Kualifikasi</td>\
+                        <td>'+data.kualifikasi+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Perusahaan</td>\
+                        <td>'+data.bentuk_perusahaan+'. '+data.nama_perusahaan+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>NPWP</td>\
+                        <td>'+data.npwp_perusahaan+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>No. Akte Perusahaan</td>\
+                        <td>'+data.no_akte_perusahaan+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Tanggal Berdiri</td>\
+                        <td>'+data.tanggal_berdiri_perusahaan+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Tanggal Perubahan</td>\
+                        <td>'+data.tanggal_perubahan+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Nama Singkatan</td>\
+                        <td>'+data.nama_singkatan+'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Nama Singkatan</td>\
+                        <td>'+data.website+'</td>\
+                    </tr>' 
+                    $('#data_perusahaan_table_row').append(dataperusahaan)
+                },
+                error: function (data) {
+                    toastr.error("Data gagal ditambahkan.\n")
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+            });
+        }
+    });
+
+    $('button#data_perorangan').click(function () {
+        const data = {
+            nama_perorangan: $('#id_nama_perorangan').val(),
+            nama_singkatan: $('#id_nama_singkatan').val(),
+            alamat_perorangan: $('#id_alamat_perorangan').val(),
+            kota_perorangan: $('#id_kota_perorangan').val(),
+            kode_pos_perorangan: $('#id_kode_pos_perorangan').val(),
+            nomor_ktp: $('#id_nomor_ktp').val(),
+            tanggal_berakhir: $('#id_tanggal_berakhir').val(),
+            npwp_perorangan: $('#id_npwp_perorangan').val(),
+            nomor_telepon: $('#id_nomor_telepon').val(),
+            nomor_fax: $('#id_nomor_fax').val(),
+            email: $('#id_email').val(),
+            nomor_hp: $('#id_nomor_hp').val(),
+        }
+        if ($('#npwp_ok').val() == "false") {
+            toastr.error("Mohon Cek NPWP.\n")
+        } else {   
+            $.ajax({
+                url: 'ajax/c3',
+                headers: { 'X-CSRFToken': csrftoken },
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
+                    setsuccess('heading_perorangan')
+                    complete.data_perusahaan_perorangan = 1
+                    toastr.success("Data berhasil ditambahkan.")
+                    $('#data_perorangan_check').show()
+                    $('#data_perorangan_table_row').empty()
+                    data = data[0]
+                    var dataperorangan = '<tr>\
+                        <td>Nama Perorangan</td>\
+                        <td>'+ data.nama_perorangan +'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Nama Singkatan</td>\
+                        <td>'+ data.nama_singkatan +'{{record.nama_singkatan}}</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Alamat Perorangan</td>\
+                        <td>'+ data.alamat_perorangan +', ' + data.kota_perorangan__kota +', ' + data.kode_pos_perorangan +'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Nomor KTP/SIM/Passport</td>\
+                        <td>'+ data.nomor_ktp +'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>NPWP Perorangan</td>\
+                        <td>'+ data.npwp_perorangan +'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Nomor Telepon // Nomor Fax</td>\
+                        <td>'+ data.nomor_telepon +' // ' + (data.nomor_fax!='' ? data.nomor_fax:'-') +'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Nomor Handphone</td>\
+                        <td>'+ data.nomor_hp +'</td>\
+                    </tr>\
+                    <tr>\
+                        <td>Email</td>\
+                        <td>'+ data.email +'</td>\
+                    </tr>'
+                    $('#data_perorangan_table_row').append(dataperorangan)
+
+                },
+                error: function (data) {
+                    toastr.error("Data gagal ditambahkan.\n")
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+            });
+        }
+    });
+    
+    $('button#alamat_perusahaan').click(function () {
+        const data = {
+            alamat_kantor: $('#id_alamat_kantor').val(),
+            kota_kantor: $('#id_kota_kantor').val(),
+            kode_pos_kantor: $('#id_kode_pos_kantor').val(),
+
+            alamat_npwp: $('#id_alamat_npwp').val(),
+            kota_npwp: $('#id_kota_npwp').val(),
+            kode_pos_npwp: $('#id_kode_pos_npwp').val(),
+
+            alamat_gudang: $('#id_alamat_gudang').val(),
+            kota_gudang: $('#id_kota_gudang').val(),
+            kode_pos_gudang: $('#id_kode_pos_gudang').val(),
+        }
+        console.log(data)
+        $.ajax({
+            url: 'ajax/c4',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                setsuccess('heading_perusahaan')
+                setsuccess('heading_alamat_perusahaan')
+                toastr.success("Data berhasil ditambahkan.")
+                $('#alamat_perusahaan_check').show()
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+    $('button#penanggungjawab_perusahaan').click(function () {
+        const data = {
+            nama_pemilik: $('#id_nama_pemilik').val(),
+            email_pemilik: $('#id_email_pemilik').val(),
+            hp_pemilik: $('#id_hp_pemilik').val(),
+
+            nama_pimpinan: $('#id_nama_pimpinan').val(),
+            email_pimpinan: $('#id_email_pimpinan').val(),
+            hp_pimpinan: $('#id_hp_pimpinan').val(),
+
+            ktp_pimpinan: $('#id_ktp_pimpinan').val(),
+            nama_marketing: $('#id_nama_marketing').val(),
+            email_marketing: $('#id_email_marketing').val(),
+            hp_marketing: $('#id_hp_marketing').val(),
+        }
+        console.log(data)
+        $.ajax({
+            url: 'ajax/c6',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                setsuccess('heading_penanggungjawab_perusahaan')
+                toastr.success("Data berhasil ditambahkan.")
+                $('#penanggungjawab_perusahaan_check').show()
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+
+    $('button#telepon_perusahaan').click(function () {
+        const data = {
+            nomor_telepon: $('#id_nomor_telepon').val(),
+            nomor_fax: $('#id_nomor_fax').val(),
+        }
+        console.log(data)
+        $.ajax({
+            url: 'ajax/c5',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                setsuccess('heading_telepon_perusahaan')
+                toastr.success("Data berhasil ditambahkan.")
+                $('#telepon_perusahaan_check').show()
+                $('#heading_telepon_perusahaan').addClass('bg-success');
+
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+
+    $('button#bank_perusahaan').click(function () {
+        const data = {
+            nama: $('#id_nama').val(),
+            cabang: $('#id_cabang').val(),
+            alamat: $('#id_alamat').val(),
+            kota: $('#id_kota').val(),
+            negara: $('#id_negara').val(),
+            nomor_rekening: $('#id_nomor_rekening').val(),
+            nama_nasabah: $('#id_nama_nasabah').val(),
+            mata_uang: $('#id_mata_uang').val(),
+        }
+        console.log(data)
+        $.ajax({
+            url: 'ajax/b',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                setsuccess('heading_bank_perusahaan')
+                complete.bank_perusahaan = 1
+                toastr.success("Data berhasil ditambahkan.")
+                $('#bank_perusahaan_check').show()
+                $('#bank_perusahaan_table_row').find("tr:gt(0)").remove();
+                var databank = ''
+                $.each(data, function (i, obj) {
+                    databank += "<tr>"
+                    databank += "<td>" + obj.nama + "</td>"
+                    databank += "<td>" + obj.cabang + "</td>"
+                    databank += "<td>" + obj.nomor_rekening + "</td>"
+                    databank += "<td><button class=\"btn\"><i class=\" fas fa - trash\"></i></button></td>"
+                    databank += "</tr>"
+                })
+                $('#bank_perusahaan_row').append(databank)
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+    $('button#segmentasi_perusahaan').click(function () {
+        const data = {
+            kbli: $('#id_kbli').val()
+        }
+        console.log(data)
+        $.ajax({
+            url: 'ajax/c7',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            dataType: 'json',
+            data: data,
+            success: function (data) {
+                setsuccess('heading_segmentasi_perusahaan')
+                complete.segmentasi_perusahaan = 1
+                toastr.success("Data berhasil ditambahkan.")
+                $('#segmentasi_perusahaan_check').show()
+                $('#segmentasi_table_row').find("tr:gt(0)").remove();
+                var databank = ''
+                $.each(data, function (i, obj) {
+                    databank += "<tr>"
+                    databank += "<td>" + obj.kbli__kbli + "</td>"
+                    databank += "<td>" + obj.kbli__judul + "</td>"
+                    databank += "<td><button class=\"btn\"><i class=\" fas fa - trash\"></i></button></td>"
+                    databank += "</tr>"
+                })
+                $('#segmentasi_table_row').append(databank)
+            },
+            error: function (data) {
+                toastr.error("Data gagal ditambahkan.\n")
+                $.each(data.responseJSON, function (key, value) {
+                    label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                    toastr.error(label + ": " + value + "\n")
+                });
+            },
+        });
+    });
+
+    $('button#tenaga_ahli_perusahaan').click(function () {
+        var formData = new FormData()
+        formData.append('nama_tenaga_ahli', $('#id_nama_tenaga_ahli').val())
+        formData.append('tanggal_lahir', $('#id_tanggal_lahir').val())
+        formData.append('pendidikan', $('#id_pendidikan').find(":selected").val())
+        formData.append('pengalaman', $('#id_pengalaman').val())
+        formData.append('profesi', $('#id_profesi').val())
+        formData.append('dokumen', $('#id_dokumen')[0].files[0])
+        $('#tenaga_ahli_perusahaan_load').show()
+        $.ajax({
+            url: 'ajax/c8',
+            headers: { 'X-CSRFToken': csrftoken },
+            type: 'post',
+            data: formData,
+            success: function (data) {
+                setsuccess('heading_tenaga_ahli_perusahaan')
+                complete.tenaga_ahli_perusahaan = 1
+                toastr.success("Data berhasil ditambahkan")
+                $('#tenaga_ahli_perusahaan_load').hide()
+                $('#tenaga_ahli_perusahaan_check').show()
+                $('#tenaga_ahli_table_row').find("tr:gt(0)").remove();
+                var tabledata = ''
+                var url = {{ MEDIA_URL }}
+                $.each(data, function (i, obj) {
+                    tabledata += "<tr>"
+                        tabledata += "<td>" + obj.nama_tenaga_ahli + "</td>"
+                        tabledata += "<td>" + obj.tanggal_lahir + "</td>"
+                        tabledata += "<td>" + obj.pendidikan + "</td>"
+                        tabledata += "<td>" + obj.pengalaman + "</td>"
+                        tabledata += "<td>" + obj.profesi + "</td>"
+                        tabledata += "<td><a href=\"" + url + obj.dokumen + "\" target=\"_blank\">Dokumen</a></td>"
+                        tabledata += "<td><button class=\"btn\"><i class=\" fas fa - trash\"></i></button></td>"
+                        tabledata += "</tr>"
+                    })
+                    $('#tenaga_ahli_table_row').append(tabledata)
+                },
+                error: function (data) {
+                    toastr.error("Data gagal ditambahkan.\n")
+                    $('#tenaga_ahli_perusahaan_load').hide()
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+        $('button.pengalaman').click(function (event) {
+            var idpengalaman = event.target.id
+            var type = ""
+            var ajaxurl = ""
+            if(idpengalaman == "pengalaman_perusahaan"){
+                type = "p_"
+                ajaxurl = "ajax/c91"
+            } else if (idpengalaman == "pengalaman_mitra_perusahaan") {
+                type = "m_"
+                ajaxurl = "ajax/c92"
+            } else if (idpengalaman == "pekerjaan_berjalan") {
+                type = "b_"
+                ajaxurl = "ajax/c93"
+            }
+            var formData = new FormData()
+            formData.append(type +'nama', $('#id_'+ type +'nama').val())
+            formData.append(type +'lokasi', $('#id_' + type +'lokasi').val())
+            formData.append(type +'bidang_usaha', $('#id_' + type +'bidang_usaha').find(":selected").val())
+            formData.append(type +'mulai_kerjasama', $('#id_' + type +'mulai_kerjasama').val())
+            formData.append(type +'nilai_kontrak', $('#id_' + type +'nilai_kontrak').val())
+            formData.append(type +'mata_uang', $('#id_' + type +'mata_uang').find(":selected").val())
+            formData.append(type +'dokumen', $('#id_' + type +'dokumen')[0].files[0])
+            $.ajax({
+                url: ajaxurl,
+                headers: { 'X-CSRFToken': csrftoken },
+                type: 'post',
+                data: formData,
+                success: function (data) {
+                    setsuccess('heading_pengalaman_perusahaan')
+                    complete.pengalaman = 1
+                    toastr.success('Data berhasil ditambahkan.')
+                    $('#' + idpengalaman +'_load').hide()
+                    $('#'+ idpengalaman +'_check').show()
+                    $('#'+ idpengalaman +'_table_row').find("tr:gt(0)").remove();
+                    var tabledata = ''
+                    var url = {{ MEDIA_URL }}
+                    if(idpengalaman == "pengalaman_perusahaan"){
+                        $.each(data, function (i, obj) {
+                            tabledata += "<tr>"
+                                tabledata += "<td>" + obj.p_nama + "</td>"
+                                tabledata += "<td>" + obj.p_lokasi + "</td>"
+                                tabledata += "<td>" + obj.p_bidang_usaha + "</td>"
+                                tabledata += "<td>" + obj.p_mulai_kerjasama + "</td>"
+                                tabledata += "<td>" + obj.p_nilai_kontrak + "</td>"
+                                tabledata += "<td>" + obj.p_mata_uang + "</td>"
+                                tabledata += "<td><a href=\"" + url + obj.p_dokumen + "\" target=\"_blank\">Dokumen</a></td>"
+                                tabledata += "<td><button class=\"btn\"><i class=\" fas fa - trash\"></i></button></td>"
+                                tabledata += "</tr>"
+                            })
+                        } else if (idpengalaman == "pengalaman_mitra_perusahaan") {
+                            $.each(data, function (i, obj) {
+                                tabledata += "<tr>"
+                                    tabledata += "<td>" + obj.m_nama + "</td>"
+                                    tabledata += "<td>" + obj.m_lokasi + "</td>"
+                                    tabledata += "<td>" + obj.m_bidang_usaha + "</td>"
+                                    tabledata += "<td>" + obj.m_mulai_kerjasama + "</td>"
+                                    tabledata += "<td>" + obj.m_nilai_kontrak + "</td>"
+                            tabledata += "<td>" + obj.m_mata_uang + "</td>"
+                            tabledata += "<td><a href=\"" + url + obj.m_dokumen + "\" target=\"_blank\">Dokumen</a></td>"
+                            tabledata += "<td><button class=\"btn\"><i class=\" fas fa - trash\"></i></button></td>"
+                            tabledata += "</tr>"
+                        })
+                        } else if (idpengalaman == "pekerjaan_berjalan") {
+                            $.each(data, function (i, obj) {
+                                tabledata += "<tr>"
+                                    tabledata += "<td>" + obj.b_nama + "</td>"
+                                    tabledata += "<td>" + obj.b_lokasi + "</td>"
+                                    tabledata += "<td>" + obj.b_bidang_usaha + "</td>"
+                                    tabledata += "<td>" + obj.b_mulai_kerjasama + "</td>"
+                                    tabledata += "<td>" + obj.b_nilai_kontrak + "</td>"
+                                    tabledata += "<td>" + obj.b_mata_uang + "</td>"
+                                    tabledata += "<td><a href=\"" + url + obj.b_dokumen + "\" target=\"_blank\">Dokumen</a></td>"
+                                    tabledata += "<td><button class=\"btn\"><i class=\" fas fa - trash\"></i></button></td>"
+                                    tabledata += "</tr>"
+                                })
+                        }
+                        
+                        $('#'+ idpengalaman +'_table_row').append(tabledata)
+                },
+                error: function (data) {
+                    toastr.error("Data gagal ditambahkan.\n")
+                    $('#' + idpengalaman +'_load').hide()
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[1] + (key.split('_')[2] == null ? '' : " " + key.split('_')[2])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+                cache: false,
+                contentType: false,
+            processData: false
+        });
+    });
+
+    $('.dokumen_vendor').click(function (event) {
+        var type = event.target.id
+        var formData = new FormData();
+        var ada_berakhir = false
+        if ($("#id_tanggal_berakhir_" + type).length) {
+            var tanggal_berakhir = $("#id_tanggal_berakhir_" + type).val()
+            if (!tanggal_berakhir) {
+                toastr.error("Isi tanggal berakhir.\n")
+                ada_berakhir = true
+            } else {
+                toastr.success(tanggal_berakhir)
+                formData.append('tanggal_berakhir', tanggal_berakhir)
+                ada_berakhir = false
+            }
+        }
+        if (!ada_berakhir) {
+            var thefile = ($("#id_dok_" + type))[0].files[0]
+            var fname = event.target.name
+            formData.append('jenis_file', type)
+            formData.append('nama_file', thefile)
+            $('#'+ type+'_load').show()
+            $.ajax({
+                url: 'ajax/senddocuments',
+                headers: { 'X-CSRFToken': csrftoken },
+                type: 'post',
+                data: formData,
+                success: function (data) {
+                    toastr.success('File berhasil ditambahkan.')
+                    $('#' + type + '_load').hide()
+                    console.log(data)
+                    var url = {{ MEDIA_URL }}
+                    $.each(data, function (i, obj) {
+                        $('#id_link_'+obj.jenis_file).empty().append($('<a>').text('File diperbarui: '+obj.updated_at.substring(0,10)).attr({ 'href': url + obj.nama_file, target: "_blank" }))
+                    })
+                    if (complete.dokumen_vendor_completed >= complete.dokumen_vendor_required) {
+                        setsuccess('heading_dokumen_vendor')
+                        complete.dokumen_vendor = 1
+                    }
+                },
+                error: function (data) {
+                    toastr.error("Data gagal ditambahkan.\n")
+                    $('#' + type + '_load').hide()
+                    $.each(data.responseJSON, function (key, value) {
+                        label = key.split('_')[0] + (key.split('_')[1] == null ? '' : " " + key.split('_')[1])
+                        toastr.error(label + ": " + value + "\n")
+                    });
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        }
+    });
+</script>
+{% endblock %}

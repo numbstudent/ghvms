@@ -1,0 +1,476 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% csrf_token %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- Main content -->
+                <div class="invoice p-3 mb-3">
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                VENDOR DATA
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    <tr>
+                                        <td>Nama Perorangan</td>
+                                        <td>{{data_perorangan.nama_perorangan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nama Singkatan</td>
+                                        <td>{{data_perorangan.nama_singkatan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Alamat Perorangan</td>
+                                        <td>{{data_perorangan.alamat_perorangan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kota</td>
+                                        <td>{{data_perorangan.kota_perorangan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kode Pos</td>
+                                        <td>{{data_perorangan.kode_pos_perorangan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor KTP/SIM/Passport</td>
+                                        <td>{{data_perorangan.nomor_ktp}} (berakhir: {% firstof data_perorangan.tanggal_berakhir 'tidak ada' %})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor NPWP</td>
+                                        <td>{{data_perorangan.npwp_perorangan}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Telepon</td>
+                                        <td>{{data_perorangan.nomor_telepon}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor Fax</td>
+                                        <td>{% firstof data_perorangan.nomor_fax '-' %}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nomor HP</td>
+                                        <td>{{data_perorangan.nomor_hp}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{data_perorangan.email}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                BANK
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datab.exists %}
+                                    <tr>
+                                        <th>Nama Bank</th>
+                                        <th>Cabang Bank</th>
+                                        <th>Nomor Rekening Bank</th>
+                                    </tr>
+                                    {% for record in datab %}
+                                    <tr>
+                                        <td>{{record.nama}}</td>
+                                        <td>{{record.cabang}}</td>
+                                        <td>{{record.nomor_rekening}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA SEGMENTASI
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datac7.exists %}
+                                    <tr>
+                                        <th>KBLI</th>
+                                        <th>Judul</th>
+                                    </tr>
+                                    {% for record in datac7 %}
+                                    <tr>
+                                        <td>{{record.kbli__kbli}}</td>
+                                        <td>{{record.kbli__judul}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA DOKUMEN
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datad.exists %}
+                                    <tr>
+                                        <th>Jenis Dokumen</th>
+                                        <th>Ada</th>
+                                    </tr>
+                                    {% for record in datad %}
+                                    <tr>
+                                        <td>{{record.label}}</td>
+                                        <td></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA TENAGA AHLI
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datac8.exists %}
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Tanggal Lahir</th>
+                                        <th>Pendidikan</th>
+                                        <th>Pengalaman (tahun)</th>
+                                        <th>Profesi / Keahlian</th>
+                                        <th>Dokumen Pengalaman / Sertifikat / CV</th>
+                                    </tr>
+                                    {% for record in datac8 %}
+                                    <tr>
+                                        <td>{{record.nama_tenaga_ahli}}</td>
+                                        <td>{{record.tanggal_lahir}}</td>
+                                        <td>{{record.pendidikan}}</td>
+                                        <td>{{record.pengalaman}}</td>
+                                        <td>{{record.profesi}}</td>
+                                        <td><a href="{{MEDIA_URL}}{{record.dokumen}}" target="_blank">Dokumen</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA PERALATAN
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+                    
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped">
+                                <tbody>
+                                    {% if datac10.exists %}
+                                    <tr>
+                                        <th>Jenis</th>
+                                        <th>Jumlah</th>
+                                        <th>Kapasitas</th>
+                                        <th>Merk</th>
+                                        <th>Tahun Pembuatan</th>
+                                        <th>Bukti Kepemilikan</th>
+                                        <th>Dokumen Bukti Kepemilikan</th>
+                                    </tr>
+                                    {% for record in datac10 %}
+                                    <tr>
+                                        <td>{{record.jenis}}</td>
+                                        <td>{{record.jumlah}}</td>
+                                        <td>{{record.kapasitas}}</td>
+                                        <td>{{record.merk}}</td>
+                                        <td>{{record.tahun_pembuatan}}</td>
+                                        <td>{{record.bukti_kepemilikan}}</td>
+                                        <td><a href="{{MEDIA_URL}}{{record.dokumen_bukti_kepemilikan}}" target="_blank">Dokumen</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA PENGALAMAN
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datac91.exists%}
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Bidang Usaha</th>
+                                        <th>Mulai Kerjasama</th>
+                                        <th>Nilai Kontrak</th>
+                                        <th>Mata Uang</th>
+                                        <th>Dokumen</th>
+                                    </tr>
+                                    {% for record in datac91 %}
+                                    <tr>
+                                        <td>{{record.p_nama}}</td>
+                                        <td>{{record.p_lokasi}}</td>
+                                        <td>{{record.p_bidang_usaha}}</td>
+                                        <td>{{record.p_mulai_kerjasama}}</td>
+                                        <td>{{record.p_nilai_kontrak}}</td>
+                                        <td>{{record.p_mata_uang}}</td>
+                                        <td><a href="{{MEDIA_URL}}{{record.p_dokumen}}" target="_blank">Dokumen</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA MITRA DAGANG
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datac92.exists %}
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Bidang Usaha</th>
+                                        <th>Mulai Kerjasama</th>
+                                        <th>Nilai Kontrak</th>
+                                        <th>Mata Uang</th>
+                                        <th>Dokumen</th>
+                                    </tr>
+                                    {% for record in datac92 %}
+                                    <tr>
+                                        <td>{{record.m_nama}}</td>
+                                        <td>{{record.m_lokasi}}</td>
+                                        <td>{{record.m_bidang_usaha}}</td>
+                                        <td>{{record.m_mulai_kerjasama}}</td>
+                                        <td>{{record.m_nilai_kontrak}}</td>
+                                        <td>{{record.m_mata_uang}}</td>
+                                        <td><a href="{{MEDIA_URL}}{{record.m_dokumen}}" target="_blank">Dokumen</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="text-center">
+                                DATA PEKERJAAN YANG SEADANG BERJALAN
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+
+                    <!-- Table row -->
+                    <div class="row">
+                        <div class="col-12 table-responsive">
+                            <table class="table table-striped"> 
+                                <tbody>
+                                    {% if datac93.exists%}
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>Lokasi</th>
+                                        <th>Bidang Usaha</th>
+                                        <th>Mulai Kerjasama</th>
+                                        <th>Nilai Kontrak</th>
+                                        <th>Mata Uang</th>
+                                        <th>Dokumen</th>
+                                    </tr>
+                                    {% for record in datac93 %}
+                                    <tr>
+                                        <td>{{record.b_nama}}</td>
+                                        <td>{{record.b_lokasi}}</td>
+                                        <td>{{record.b_bidang_usaha}}</td>
+                                        <td>{{record.b_mulai_kerjasama}}</td>
+                                        <td>{{record.b_nilai_kontrak}}</td>
+                                        <td>{{record.b_mata_uang}}</td>
+                                        <td><a href="{{MEDIA_URL}}{{record.b_dokumen}}" target="_blank">Dokumen</a></td>
+                                        <td><button class="btn"><i class=" fas fa-trash"></i></button></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <!-- accepted payments column -->
+                        <div class="col-6">
+                            <p class="lead">Payment Methods:</p>
+                            <img src="../../dist/img/credit/visa.png" alt="Visa">
+                            <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
+                            <img src="../../dist/img/credit/american-express.png" alt="American Express">
+                            <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
+
+                            <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya
+                                handango imeem
+                                plugg
+                                dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                            </p>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-6">
+                            <p class="lead">Amount Due 2/22/2014</p>
+
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th style="width:50%">Subtotal:</th>
+                                        <td>$250.30</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tax (9.3%)</th>
+                                        <td>$10.34</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping:</th>
+                                        <td>$5.80</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Total:</th>
+                                        <td>$265.24</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- this row will not appear when printing -->
+                    <div class="row no-print">
+                        <div class="col-12">
+                            <a href="invoice-print.html" target="_blank" class="btn btn-default"><i
+                                    class="fas fa-print"></i> Print</a>
+                            <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i>
+                                Submit
+                                Payment
+                            </button>
+                            <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                                <i class="fas fa-download"></i> Generate PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.invoice -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %}

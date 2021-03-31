@@ -1,0 +1,26 @@
+{% include 'singlepage/header.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<div class="col-lg-5 my-auto text-center">
+    <span>Vendor Management System</span>
+</div>
+<div class="col-lg-7">
+    <div class="card-header">
+        <div class="text-center">
+            <h1 class="h4 text-gray-900 mb-4">Registrasi Vendor</h1>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="text-center">
+            <p>{{message}}</p>
+            {% if link %}
+            <a href="verification/{{link}}">Klik link untuk mengaktivasi akun anda</a>
+            {% endif %}
+        </div>
+        <hr>
+        {% include 'singlepage/front-links.html' %}
+
+    </div>
+</div>
+{% include 'singlepage/footer.html' %}
